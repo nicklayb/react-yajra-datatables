@@ -1,6 +1,15 @@
-import { sayHello } from '../src'
-import '../style.css'
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+const App = () => (
+    <div>
+        test
+    </div>
+);
 
 document.addEventListener('DOMContentLoaded', () => {
-  sayHello()
-})
+    ReactDOM.render(
+        <App />,
+        document.getElementById('root')
+    );
+});

@@ -8,8 +8,15 @@
   "scripts": {
     "test": "run test"
   },
-  "dependencies": {},
+  "dependencies": {
+    "axios": "^0.16.2",
+    "lodash": "^4.17.4",
+    "qs": "^6.5.0",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
+  },
   "devDependencies": {
+    "eslint-plugin-react": "^7.3.0",
     "firenpm": "1.2.0",
     "firenpm.web": "1.2.0"
   },
