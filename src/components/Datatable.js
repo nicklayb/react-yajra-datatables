@@ -117,11 +117,11 @@ class Datatable extends React.Component {
             search: requestSearch(this.state.searchInput),
             order: this.getOrderForRequest(),
             draw: this.state.drawCount
-        }
+        };
     }
 
     refresh() {
-        api(this.props.url.split('/'), false).get(this.getRequestData()).then(this.updateTableState);
+        api(this.props.url)[this.props.method || 'get'](this.getRequestData()).then(this.updateTableState);
     }
 
     componentDidMount() {

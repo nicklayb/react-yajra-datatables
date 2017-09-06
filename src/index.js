@@ -1,5 +1,3 @@
-export function sayHello() {
-    let p = document.createElement('p');
-    p.textContent = 'Hello. Seems that everything is working!';
-    document.body.appendChild(p);
-}
+import Datatable from './components/Datatable';
+
+export default Datatable;
