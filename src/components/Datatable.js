@@ -2,7 +2,8 @@ import React from 'react';
 import Header from './Header/Header';
 import Body from './Body/Body';
 import Footer from './Footer/Footer';
-import api from '../services/api';
+import query from '../services/query';
+import Wrapper from './Wrapper';
 import { debounce } from 'lodash';
 
 const requestSearch = (value, regex = false) => ({
@@ -44,25 +45,30 @@ class Datatable extends React.Component {
         return this.state.currentPage * this.state.entriesToShow;
     }
 
-    updateTableState({ data }) {
+    updateTableState(response) {
+        const { recordsTotal, recordsFiltered, data, draw } = this.getResponseData(response.data);
         this.setState({
-            recordsTotal: data.recordsTotal,
-            recordsFiltered: data.recordsFiltered,
-            data: data.data,
-            drawCount: (data.draw + 1),
+            recordsTotal: recordsTotal,
+            recordsFiltered: recordsFiltered,
+            data: data,
+            drawCount: (draw + 1),
             refreshing: false,
         });
     }
 
-    handleSetEntriesToShow(entries) {
+    getResponseData(data) {
+        return (this.props.responseDataGetter) ? this.props.responseDataGetter(data) : data;
+    }
+
+    handleSetEntriesToShow(entriesToShow) {
         this.setState({
-            entriesToShow: entries
+            entriesToShow
         }, () => this.draw());
     }
 
-    handleSetSearchInput(value) {
+    handleSetSearchInput(searchInput) {
         this.setState({
-            searchInput: value
+            searchInput
         }, () => this.debouncedDraw());
     }
 
@@ -121,7 +127,11 @@ class Datatable extends React.Component {
     }
 
     refresh() {
-        api(this.props.url)[this.props.method || 'get'](this.getRequestData()).then(this.updateTableState);
+        query({
+            url: this.props.url,
+            method: this.props.method || 'get',
+            data: this.getRequestData()
+        }).then(this.updateTableState);
     }
 
     componentDidMount() {
@@ -134,9 +144,17 @@ class Datatable extends React.Component {
         }, () => this.refresh());
     }
 
+    getStyleProps() {
+        return {
+            bordered: this.props.bordered || true,
+            condensed: this.props.condensed || true,
+            alternated: this.props.alternated || true
+        };
+    }
+
     render() {
         return (
-            <div className="datatable">
+            <Wrapper {...this.getStyleProps()}>
                 <Header
                     entriesToShow={this.state.entriesToShow}
                     searchInput={this.state.searchInput}
@@ -147,7 +165,8 @@ class Datatable extends React.Component {
                     data={this.state.data}
                     orderColumnDirection={this.state.orderColumnDirection}
                     orderColumnIndex={this.state.orderColumnIndex}
-                    setOrderColumn={this.handleSetOrderColumn}/>
+                    setOrderColumn={this.handleSetOrderColumn}
+                    styles={this.getStyleProps()}/>
                 <Footer
                     currentPage={this.state.currentPage}
                     setPage={this.handleSetPage}
@@ -156,7 +175,7 @@ class Datatable extends React.Component {
                     recordsTotal={this.state.recordsTotal}
                     dataLength={this.state.data.length}
                     refreshing={this.state.refreshing}/>
-            </div>
+            </Wrapper>
         );
     }
 }

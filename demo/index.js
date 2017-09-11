@@ -5,10 +5,10 @@ import Datatable from '../src';
 const App = () => (
     <div>
         <Datatable
-            url="https://datatables.yajrabox.com/eloquent/basic-object-data"
+            url="http://localhost:8000/test"
             columns={[
-                { name: 'name', data: 'name' },
-                { name: 'email', data: 'email' }
+                { name: 'Resource', data: 'Resource' },
+                { name: 'Amount', data: 'Amount', html: true }
             ]}/>
     </div>
 );

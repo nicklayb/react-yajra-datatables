@@ -8,7 +8,7 @@ const SearchInput = ({ searchInput, setSearchInput }) => {
             <label>Search</label>
             <input type="text" className="form-control input-sm" value={searchInput} onChange={handleChange}/>
         </div>
-    )
+    );
 };
 
 export default SearchInput;

@@ -13,7 +13,8 @@
     "lodash": "^4.17.4",
     "qs": "^6.5.0",
     "react": "^15.6.1",
-    "react-dom": "^15.6.1"
+    "react-dom": "^15.6.1",
+    "styled-components": "^2.1.2"
   },
   "devDependencies": {
     "eslint-plugin-react": "^7.3.0",
